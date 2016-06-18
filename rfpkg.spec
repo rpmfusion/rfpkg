@@ -10,12 +10,12 @@
 
 Name:           rfpkg
 Summary:        RPM Fusion utility for working with dist-git
-Version:        1.23
+Version:        1.23.1
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
-Source0:        https://github.com/rpmfusion-infra/rfpkg/archive/v%{version}.zip#/%{name}-%{version}.zip
+Source0:        https://github.com/rpmfusion-infra/rfpkg/archive/v%{version}.zip#/%{name}-%{version}.tar.gz
 
 %{?python_provide:%python_provide python2-%{name}}
 BuildArch:      noarch
@@ -91,6 +91,9 @@ chmod +x $RPM_BUILD_ROOT%{_bindir}/rfpkg-*free
 
 
 %changelog
+* Sat Jun 18 2016 Nicolas Chauvet <kwizart@gmail.com> - 1.23.1-1
+- Update to 1.23.1
+
 * Fri Jun 17 2016 Nicolas Chauvet <kwizart@gmail.com> - 1.23-1
 - Rebase on top of fedpkg 1.23
 
