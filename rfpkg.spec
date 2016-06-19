@@ -10,7 +10,7 @@
 
 Name:           rfpkg
 Summary:        RPM Fusion utility for working with dist-git
-Version:        1.23.1
+Version:        1.23.2
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          Applications/System
@@ -91,6 +91,9 @@ chmod +x $RPM_BUILD_ROOT%{_bindir}/rfpkg-*free
 
 
 %changelog
+* Sun Jun 19 2016 Nicolas Chauvet <kwizart@gmail.com> - 1.23.2-1
+- Update to 1.23.2
+
 * Sat Jun 18 2016 Nicolas Chauvet <kwizart@gmail.com> - 1.23.1-1
 - Update to 1.23.1
 
