@@ -5,12 +5,11 @@
 %global python2_version 2.6
 %endif
 
-%global   checkout 62a8b01494dde87116cc588b318c008499bf30ac
-%global   date   20151027
+%global   checkout f5465b851ad4a10fe4504a6f499409dd54b93c04
 
 Name:           rfpkg
 Summary:        RPM Fusion utility for working with dist-git
-Version:        1.23.2
+Version:        1.23.3
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          Applications/System
@@ -53,26 +52,12 @@ sed -e 's|^#!python|#!%{__python2}|g' -i $RPM_BUILD_ROOT%{_bindir}/rfpkg
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
 install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
-##Make 'rfpkg' free/nonfree scripts
-cat > $RPM_BUILD_ROOT%{_bindir}/rfpkg-free <<EOF
-#!/bin/sh
-exec %{_bindir}/rfpkg -C %{_sysconfdir}/rpkg/rfpkg-free.conf "\$@"
-EOF
-
-cat > $RPM_BUILD_ROOT%{_bindir}/rfpkg-nonfree <<EOF
-#!/bin/sh
-exec %{_bindir}/rfpkg -C %{_sysconfdir}/rpkg/rfpkg-nonfree.conf "\$@"
-EOF
-
-chmod +x $RPM_BUILD_ROOT%{_bindir}/rfpkg-*free
-##
 
 %files
 %{!?_licensedir:%global license %doc}
 %doc README
 %license COPYING
 %{_bindir}/rfpkg
-%{_bindir}/rfpkg-*
 %{python2_sitelib}/rfpkg/
 %{python2_sitelib}/rfpkg-%{version}-py%{python2_version}.egg-info/
 %{_mandir}/man1/rfpkg.1*
@@ -91,6 +76,10 @@ chmod +x $RPM_BUILD_ROOT%{_bindir}/rfpkg-*free
 
 
 %changelog
+* Fri Jul 01 2016 Nicolas Chauvet <nicolas.chauvet@kwizart.fr> - 1.23.3-1
+- Update to 1.23.3
+- Remove broken rfpkg-free and rfpkg-nonfree
+
 * Sun Jun 19 2016 Nicolas Chauvet <kwizart@gmail.com> - 1.23.2-1
 - Update to 1.23.2
 
