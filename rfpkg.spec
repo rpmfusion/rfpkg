@@ -9,7 +9,7 @@
 
 Name:           rfpkg
 Summary:        RPM Fusion utility for working with dist-git
-Version:        1.23.3
+Version:        1.23.4
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          Applications/System
@@ -71,11 +71,12 @@ install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %endif
 %dir %{_sysconfdir}/rpkg
 %config(noreplace) %{_sysconfdir}/rpkg/rfpkg.conf
-%config(noreplace) %{_sysconfdir}/rpkg/rfpkg-free.conf
-%config(noreplace) %{_sysconfdir}/rpkg/rfpkg-nonfree.conf
 
 
 %changelog
+* Mon Jul 04 2016 Nicolas Chauvet <kwizart@gmail.com> - 1.23.4-1
+- Update to 1.23.4
+
 * Fri Jul 01 2016 Nicolas Chauvet <nicolas.chauvet@kwizart.fr> - 1.23.3-1
 - Update to 1.23.3
 - Remove broken rfpkg-free and rfpkg-nonfree
