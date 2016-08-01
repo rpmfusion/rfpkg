@@ -10,7 +10,7 @@
 Name:           rfpkg
 Summary:        RPM Fusion utility for working with dist-git
 Version:        1.23.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
@@ -74,6 +74,10 @@ install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 
 %changelog
+* Mon Aug 01 2016 Sérgio Basto <sergio@serjux.com> - 1.23.4-3
+-
+  https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
 * Mon Jul 04 2016 Leigh Scott <leigh123linux@googlemail.com> - 1.23.4-2
 - rebuilt
 
