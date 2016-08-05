@@ -1,44 +1,46 @@
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{!?__python2: %global __python2 /usr/bin/python2}
-%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-%global python2_version 2.6
-%endif
+# sitelib for noarch packages, sitearch for others (remove the unneeded one)
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
-%global   checkout f5465b851ad4a10fe4504a6f499409dd54b93c04
+%define compdir %(pkg-config --variable=completionsdir bash-completion)
+%if "%{compdir}" == ""
+%define compdir "/etc/bash_completion.d"
+%endif
 
 Name:           rfpkg
 Summary:        RPM Fusion utility for working with dist-git
-Version:        1.23.4
-Release:        3%{?dist}
+Version:        1.24.0
+Release:        1%{?dist}
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        https://github.com/rpmfusion-infra/rfpkg/archive/v%{version}.zip#/%{name}-%{version}.tar.gz
 
-%{?python_provide:%python_provide python2-%{name}}
-BuildArch:      noarch
-
-BuildRequires:  python2-devel, python-setuptools, bash-completion
-
-BuildRequires:  pyrpkg, fedora-cert
-BuildRequires:  python-fedora, packagedb-cli > 2.2
-
-Requires: bodhi-client
+Requires:       pyrpkg >= 1.45, redhat-rpm-config
+Requires:       python-pycurl, koji, python-fedora
 #We need rpmfusion-packager instead - but don't do circle dependency
 #Requires: fedora-cert
-Requires: koji
-Requires: packagedb-cli > 2.2
-Requires: pyrpkg >= 1.33
-Requires: python-pycurl
-Requires: redhat-rpm-config
+Requires:       bodhi-client, packagedb-cli > 2.2
+Requires:       packagedb-cli
+%if 0%{?rhel} == 5 || 0%{?rhel} == 4
+Requires:       python-kitchen
+%endif
+
+BuildArch:      noarch
+BuildRequires:  python-devel, python-setuptools, pkgconfig
+# We br these things for man page generation due to imports
+BuildRequires:  pyrpkg >= 1.44, fedora-cert
+BuildRequires:  bash-completion
+# This until fedora-cert gets fixed
+BuildRequires:  python-fedora, packagedb-cli > 2.2
+# For testing
+BuildRequires:  python-nose, python-mock, git
 
 
 %description
 RPM Fusion utility for working with dist-git.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 
 %build
 %{__python2} setup.py build
@@ -51,6 +53,10 @@ sed -e 's|^#!python|#!%{__python2}|g' -i $RPM_BUILD_ROOT%{_bindir}/rfpkg
 
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
 install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
+%if 0%{?rhel} && 0%{?rhel} == 7
+# The completion file must be named similarly to the command.
+mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
+%endif
 
 
 %files
@@ -71,9 +77,14 @@ install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %endif
 %dir %{_sysconfdir}/rpkg
 %config(noreplace) %{_sysconfdir}/rpkg/rfpkg.conf
+# zsh completion
+%{_datadir}/zsh/site-functions/_%{name}
 
 
 %changelog
+* Fri Aug 05 2016 Nicolas Chauvet <nicolas.chauvet@kwizart.fr> - 1.24.0-1
+- Update to 1.24.0
+
 * Mon Aug 01 2016 Sérgio Basto <sergio@serjux.com> - 1.23.4-3
 -
   https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
