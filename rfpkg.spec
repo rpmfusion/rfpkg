@@ -13,7 +13,7 @@ Release:        1%{?dist}
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
-Source0:        https://github.com/rpmfusion-infra/rfpkg/archive/v%{version}.zip#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/rpmfusion-infra/rfpkg/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 Requires:       pyrpkg >= 1.45, redhat-rpm-config
 Requires:       python-pycurl, koji, python-fedora
