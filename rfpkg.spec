@@ -67,14 +67,7 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 %{python2_sitelib}/rfpkg/
 %{python2_sitelib}/rfpkg-%{version}-py%{python2_version}.egg-info/
 %{_mandir}/man1/rfpkg.1*
-%if 0%{?fedora}
-%dir %{_datadir}/bash-completion
-%dir %{_datadir}/bash-completion/completions
-%{_datadir}/bash-completion/completions/rfpkg
-%else
-%dir %{_sysconfdir}/bash_completion.d
-%{_sysconfdir}/bash_completion.d/rfpkg
-%endif
+%(dirname %{compdir})
 %dir %{_sysconfdir}/rpkg
 %config(noreplace) %{_sysconfdir}/rpkg/rfpkg.conf
 # zsh completion
