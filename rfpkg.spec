@@ -9,7 +9,7 @@
 Name:           rfpkg
 Summary:        RPM Fusion utility for working with dist-git
 Version:        1.24.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
@@ -50,6 +50,8 @@ RPM Fusion utility for working with dist-git.
 %{__python2} setup.py install --skip-build --root $RPM_BUILD_ROOT
 
 sed -e 's|^#!python|#!%{__python2}|g' -i $RPM_BUILD_ROOT%{_bindir}/rfpkg
+sed -e 's|^#!python|#!%{__python2}|g' -i $RPM_BUILD_ROOT%{python2_sitelib}/rfpkg/__main__.py
+chmod a+x $RPM_BUILD_ROOT%{python2_sitelib}/rfpkg/__main__.py
 
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
 install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
@@ -75,6 +77,9 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 
 
 %changelog
+* Fri Aug 19 2016 Antonio Trande <sagitterATfedoraproject.org> 1.24.0-2
+- Fix Python shebang
+
 * Fri Aug 05 2016 Nicolas Chauvet <nicolas.chauvet@kwizart.fr> - 1.24.0-1
 - Update to 1.24.0
 
