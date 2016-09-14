@@ -8,7 +8,7 @@
 
 Name:           rfpkg
 Summary:        RPM Fusion utility for working with dist-git
-Version:        1.25.0
+Version:        1.25.1
 Release:        1%{?dist}
 License:        GPLv2+
 Group:          Applications/System
@@ -19,6 +19,7 @@ Requires:       pyrpkg >= 1.45, redhat-rpm-config
 Requires:       python-pycurl, koji, python-fedora
 #We need rpmfusion-packager instead - but don't do circle dependency
 #Requires: fedora-cert
+Requires:       rpmfusion-packager >= 0.5.2
 Requires:       bodhi-client, packagedb-cli > 2.2
 Requires:       packagedb-cli
 %if 0%{?rhel} == 5 || 0%{?rhel} == 4
@@ -77,6 +78,10 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 
 
 %changelog
+* Wed Sep 14 2016 Sérgio Basto <sergio@serjux.com> - 1.25.1-1
+- Update to 1.25.1, force use rpmfusion-packager >= 0.5.2
+- Fix rfpkg srpm in git master.
+
 * Fri Sep 09 2016 Miro Hrončok <mhroncok@redhat.com> - 1.25.0-1
 - Update to 1.25.0
 
