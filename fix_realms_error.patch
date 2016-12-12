@@ -1,0 +1,27 @@
+From c2f3b36a8842716269075a03c658d4f8e36aaa55 Mon Sep 17 00:00:00 2001
+From: leigh123linux <leigh123linux@fedoraproject.org>
+Date: Mon, 12 Dec 2016 21:22:12 +0000
+Subject: [PATCH] Update for pyrpkg changes
+
+This change broke rfpkg
+
+"Swtich to using CCColUtils to determine username from krb realms"
+
+https://pagure.io/rpkg/c/14e35c4f4144495a2767a84fd4934fd5c2c9d8ce?branch=master
+---
+ src/rfpkg/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/rfpkg/__init__.py b/src/rfpkg/__init__.py
+index 8860174..b988f7d 100644
+--- a/src/rfpkg/__init__.py
++++ b/src/rfpkg/__init__.py
+@@ -30,7 +30,7 @@ class Commands(pyrpkg.Commands):
+     def __init__(self, path, lookaside, lookasidehash, lookaside_cgi,
+                  gitbaseurl, anongiturl, branchre, kojiconfig,
+                  build_client, user=None, dist=None, target=None,
+-                 quiet=False, distgit_namespaced=False):
++                 quiet=False, distgit_namespaced=False, realms=None):
+         """Init the object and some configuration details."""
+ 
+         # We are subclassing to set kojiconfig to none, so that we can

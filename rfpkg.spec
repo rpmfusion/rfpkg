@@ -9,11 +9,12 @@
 Name:           rfpkg
 Summary:        RPM Fusion utility for working with dist-git
 Version:        1.25.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        https://github.com/rpmfusion-infra/rfpkg/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Patch0:         fix_realms_error.patch
 
 Requires:       pyrpkg >= 1.45, redhat-rpm-config
 Requires:       python-pycurl, koji, python-fedora
@@ -42,6 +43,7 @@ RPM Fusion utility for working with dist-git.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__python2} setup.py build
@@ -78,6 +80,9 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 
 
 %changelog
+* Mon Dec 12 2016 leigh scott <leigh123linux@googlemail.com> - 1.25.1-2
+- Fix realms error
+
 * Wed Sep 14 2016 Sérgio Basto <sergio@serjux.com> - 1.25.1-1
 - Update to 1.25.1, force use rpmfusion-packager >= 0.5.2
 - Fix rfpkg srpm in git master.
