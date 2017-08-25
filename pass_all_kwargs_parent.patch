@@ -1,0 +1,37 @@
+From ef4d4ce9844d8cb3dba764646e2e9908e91230c3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Lubom=C3=ADr=20Sedl=C3=A1=C5=99?= <lsedlar@redhat.com>
+Date: Mon, 15 May 2017 09:54:36 +0200
+Subject: [PATCH] Commands: pass all kwargs to parent
+
+When rpkg adds a new argument to the constructor, this method needs to
+be updated. But it can simply just pass all the kwargs without looking
+at them.
+---
+ src/rfpkg/__init__.py | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/src/rfpkg/__init__.py b/src/rfpkg/__init__.py
+index b988f7d..7e62200 100644
+--- a/src/rfpkg/__init__.py
++++ b/src/rfpkg/__init__.py
+@@ -29,8 +29,7 @@ class Commands(pyrpkg.Commands):
+ 
+     def __init__(self, path, lookaside, lookasidehash, lookaside_cgi,
+                  gitbaseurl, anongiturl, branchre, kojiconfig,
+-                 build_client, user=None, dist=None, target=None,
+-                 quiet=False, distgit_namespaced=False, realms=None):
++                 build_client, **kwargs):
+         """Init the object and some configuration details."""
+ 
+         # We are subclassing to set kojiconfig to none, so that we can
+@@ -38,9 +37,7 @@ def __init__(self, path, lookaside, lookasidehash, lookaside_cgi,
+         super(Commands, self).__init__(path, lookaside, lookasidehash,
+                                        lookaside_cgi, gitbaseurl, anongiturl,
+                                        branchre, kojiconfig, build_client,
+-                                       user=user, dist=dist, target=target,
+-                                       quiet=quiet,
+-                                       distgit_namespaced=distgit_namespaced)
++                                       **kwargs)
+ 
+         # New data
+         self.secondary_arch = {
