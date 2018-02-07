@@ -16,11 +16,16 @@ URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python2-devel python2-setuptools pkgconfig
+BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+BuildRequires:  python2-setuptools pkgconfig
+
 # We br these things for man page generation due to imports
 BuildRequires:  rpmfusion-cert
+BuildRequires:  packagedb-cli > 2.2
 BuildRequires:  pyrpkg >= 1.44
 BuildRequires:  bash-completion
+
 # For testing
 BuildRequires:  python-nose
 BuildRequires:  python-mock
