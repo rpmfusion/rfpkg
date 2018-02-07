@@ -7,26 +7,16 @@
 %endif
 
 Name:           rfpkg
-Summary:        RPM Fusion utility for working with dist-git
 Version:        1.25.3
 Release:        1%{?dist}
+Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
-Source0:        %url/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-
-Requires:       pyrpkg >= 1.45, redhat-rpm-config
-Requires:       python-pycurl, koji, python-fedora
-Requires:       rpmfusion-cert
-Requires:       rpmfusion-packager >= 0.6.1
-Requires:       bodhi-client, packagedb-cli > 2.2
-Requires:       packagedb-cli
-%if 0%{?rhel} == 5 || 0%{?rhel} == 4
-Requires:       python-kitchen
-%endif
+Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python-devel, python-setuptools, pkgconfig
+BuildRequires:  python2-devel python2-setuptools pkgconfig
 # We br these things for man page generation due to imports
 BuildRequires:  rpmfusion-cert
 BuildRequires:  pyrpkg >= 1.44
@@ -34,7 +24,22 @@ BuildRequires:  bash-completion
 # This until fedora-cert gets fixed
 BuildRequires:  python-fedora, packagedb-cli > 2.2
 # For testing
-BuildRequires:  python-nose, python-mock, git
+BuildRequires:  python-nose
+BuildRequires:  python-mock
+BuildRequires:  git
+
+Requires:       pyrpkg >= 1.45
+Requires:       redhat-rpm-config
+Requires:       python-pycurl
+requires:       koji
+Requires:       python-fedora
+Requires:       rpmfusion-cert
+Requires:       rpmfusion-packager >= 0.6.1
+Requires:       bodhi-client
+Requires:       packagedb-cli > 2.2
+%if 0%{?rhel} == 5 || 0%{?rhel} == 4
+Requires:       python-kitchen
+%endif
 
 
 %description
@@ -80,6 +85,7 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 %changelog
 * Wed Feb 07 2018 Sérgio Basto <sergio@serjux.com> - 1.25.3-1
 - Update to 1.25.3, need rpmfusion-packager 0.6.1
+- Arrange some items
 
 * Thu Oct 12 2017 Leigh Scott <leigh123linux@googlemail.com> - 1.25.2-1
 - Update to 1.25.2
