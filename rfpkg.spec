@@ -21,8 +21,6 @@ BuildRequires:  python2-devel python2-setuptools pkgconfig
 BuildRequires:  rpmfusion-cert
 BuildRequires:  pyrpkg >= 1.44
 BuildRequires:  bash-completion
-# This until fedora-cert gets fixed
-BuildRequires:  python-fedora, packagedb-cli > 2.2
 # For testing
 BuildRequires:  python-nose
 BuildRequires:  python-mock
@@ -86,6 +84,7 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 * Wed Feb 07 2018 Sérgio Basto <sergio@serjux.com> - 1.25.3-1
 - Update to 1.25.3, need rpmfusion-packager 0.6.1
 - Arrange some items
+- Delete obsolete hack
 
 * Thu Oct 12 2017 Leigh Scott <leigh123linux@googlemail.com> - 1.25.2-1
 - Update to 1.25.2
