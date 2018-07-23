@@ -7,7 +7,7 @@
 %endif
 
 Name:           rfpkg
-Version:        1.25.3
+Version:        1.25.4
 Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
@@ -86,6 +86,9 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 
 
 %changelog
+* Mon Jul 23 2018 Sérgio Basto <sergio@serjux.com> - 1.25.4-1
+- Update to 1.25.4 use kojiprofile and https for anongiturl
+
 * Wed Feb 07 2018 Sérgio Basto <sergio@serjux.com> - 1.25.3-1
 - Update to 1.25.3, need rpmfusion-packager 0.6.1
 - Arrange some items
