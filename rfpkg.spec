@@ -13,7 +13,7 @@ Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
-Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        %url/archive/v%{version}/%{name}-%{version}.1.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
