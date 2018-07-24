@@ -7,13 +7,13 @@
 %endif
 
 Name:           rfpkg
-Version:        1.25.4
+Version:        1.25.5
 Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
-Source0:        %url/archive/v%{version}/%{name}-%{version}.1.tar.gz
+Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
@@ -86,6 +86,9 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 
 
 %changelog
+* Tue Jul 24 2018 Sérgio Basto <sergio@serjux.com> - 1.25.5-1
+- Update to 1.25.5 fix kojiprofiles
+
 * Mon Jul 23 2018 Sérgio Basto <sergio@serjux.com> - 1.25.4-1
 - Update to 1.25.4 use kojiprofile and https for anongiturl
 
