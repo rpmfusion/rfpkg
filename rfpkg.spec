@@ -1,6 +1,3 @@
-# sitelib for noarch packages, sitearch for others (remove the unneeded one)
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-
 %define compdir %(pkg-config --variable=completionsdir bash-completion)
 %if "%{compdir}" == ""
 %define compdir "/etc/bash_completion.d"
@@ -71,7 +68,6 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 
 
 %files
-%{!?_licensedir:%global license %doc}
 %doc README
 %license COPYING
 %{_bindir}/rfpkg
