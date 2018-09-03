@@ -7,7 +7,7 @@
 %endif
 
 Name:           rfpkg
-Version:        1.25.5
+Version:        1.25.6
 Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
@@ -86,6 +86,9 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 
 
 %changelog
+* Mon Sep 03 2018 Sérgio Basto <sergio@serjux.com> - 1.25.6-1
+- Update to 1.25.6 Fix new warnings of rpkg modules are deprecated
+
 * Tue Jul 24 2018 Sérgio Basto <sergio@serjux.com> - 1.25.5-1
 - Update to 1.25.5 fix kojiprofiles
 
