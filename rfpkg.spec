@@ -56,6 +56,7 @@ Requires:       packagedb-cli > 2.2
 %global __python %{__python3}
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-future
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-setuptools pkgconfig
 
@@ -72,6 +73,7 @@ Requires:       python3-rpkg
 Requires:       redhat-rpm-config
 Requires:       python3-pycurl
 Requires:       python3-fedora
+Requires:       python3-future
 Requires:       python3-rpmfusion-cert
 Requires:       rpmfusion-packager >= 0.6.3-2
 Requires:       bodhi-client
