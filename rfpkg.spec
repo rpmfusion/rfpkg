@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.25.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -103,7 +103,6 @@ RPM Fusion utility for working with dist-git.
 %py2_install
 
 sed -e 's|^#!python|#!%{__python2}|g' -i $RPM_BUILD_ROOT%{_bindir}/rfpkg
-sed -e 's|^#!python|#!%{__python2}|g' -i $RPM_BUILD_ROOT%{python2_sitelib}/rfpkg/__main__.py
 chmod a+x $RPM_BUILD_ROOT%{python2_sitelib}/rfpkg/__main__.py
 
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
@@ -116,7 +115,7 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 %py3_install
 
 sed -e 's|^#!python|#!%{__python3}|g' -i $RPM_BUILD_ROOT%{_bindir}/rfpkg
-sed -e 's|^#!python|#!%{__python3}|g' -i $RPM_BUILD_ROOT%{python3_sitelib}/rfpkg/__main__.py
+sed -e 's|^#!/usr/bin/python2|#!%{__python3}|g' -i $RPM_BUILD_ROOT%{python3_sitelib}/rfpkg/__main__.py
 chmod a+x $RPM_BUILD_ROOT%{python3_sitelib}/rfpkg/__main__.py
 
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
@@ -144,6 +143,9 @@ install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 
 %changelog
+* Tue Mar 26 2019 Leigh Scott <leigh123linux@googlemail.com> - 1.25.6-3
+- Fix python2 shebang in python3 build
+
 * Tue Mar 26 2019 Leigh Scott <leigh123linux@googlemail.com> - 1.25.6-2
 - Switch to python3 for f30
 
