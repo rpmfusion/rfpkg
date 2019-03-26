@@ -5,55 +5,100 @@
 
 Name:           rfpkg
 Version:        1.25.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch0:         py3.patch
 
 BuildArch:      noarch
+
+# fedpkg command switched to python3 on Fedora 30 and RHEL > 8:
+%if 0%{?fedora} > 29 || 0%{?rhel} > 8
+%bcond_with python2
+%else
+%bcond_without python2
+%endif
+
+BuildRequires:  bash-completion
+BuildRequires:  git
+
+Requires:       bodhi-client
+Requires:       redhat-rpm-config
+Requires:       koji
+
+%if %{with python2}
+# This package redefines __python and can use the python_ macros
+%global __python %{__python2}
+
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-setuptools pkgconfig
-
 # We br these things for man page generation due to imports
 BuildRequires:  rpmfusion-cert
 BuildRequires:  packagedb-cli > 2.2
 BuildRequires:  pyrpkg >= 1.44
-BuildRequires:  bash-completion
-
 # For testing
 BuildRequires:  python-nose
 BuildRequires:  python-mock
-BuildRequires:  git
 
 Requires:       pyrpkg >= 1.45
-Requires:       redhat-rpm-config
 Requires:       python-pycurl
-requires:       koji
 Requires:       python-fedora
 Requires:       rpmfusion-cert
 Requires:       rpmfusion-packager >= 0.6.1
-Requires:       bodhi-client
 Requires:       packagedb-cli > 2.2
-%if 0%{?rhel} == 5 || 0%{?rhel} == 4
-Requires:       python-kitchen
-%endif
 
+%else  # python3
+# This package redefines __python and can use the python_ macros
+%global __python %{__python3}
+
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-setuptools pkgconfig
+
+# We br these things for man page generation due to imports
+BuildRequires:  python3-rpmfusion-cert
+BuildRequires:  rfpkgdb-cli
+BuildRequires:  python3-rpkg
+
+# For testing
+BuildRequires:  python3-nose
+BuildRequires:  python3-mock
+
+Requires:       python3-rpkg
+Requires:       redhat-rpm-config
+Requires:       python3-pycurl
+Requires:       python3-fedora
+Requires:       python3-rpmfusion-cert
+Requires:       rpmfusion-packager >= 0.6.3-2
+Requires:       bodhi-client
+Requires:       rfpkgdb-cli
+%endif
 
 %description
 RPM Fusion utility for working with dist-git.
 
 %prep
 %setup -q
+%if 0%{?fedora} > 29 || 0%{?rhel} > 8
+%patch0 -p1
+%endif
 
 %build
-%{__python2} setup.py build
+%if %{with python2}
+%py2_build
 %{__python2} src/rfpkg_man_page.py > rfpkg.1
+%else
+%py3_build
+%{__python3} src/rfpkg_man_page.py > rfpkg.1
+%endif
 
 %install
-%{__python2} setup.py install --skip-build --root $RPM_BUILD_ROOT
+%if %{with python2}
+%py2_install
 
 sed -e 's|^#!python|#!%{__python2}|g' -i $RPM_BUILD_ROOT%{_bindir}/rfpkg
 sed -e 's|^#!python|#!%{__python2}|g' -i $RPM_BUILD_ROOT%{python2_sitelib}/rfpkg/__main__.py
@@ -65,14 +110,29 @@ install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 # The completion file must be named similarly to the command.
 mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 %endif
+%else
+%py3_install
+
+sed -e 's|^#!python|#!%{__python3}|g' -i $RPM_BUILD_ROOT%{_bindir}/rfpkg
+sed -e 's|^#!python|#!%{__python3}|g' -i $RPM_BUILD_ROOT%{python3_sitelib}/rfpkg/__main__.py
+chmod a+x $RPM_BUILD_ROOT%{python3_sitelib}/rfpkg/__main__.py
+
+mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
+install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
+%endif
 
 
 %files
 %doc README
 %license COPYING
 %{_bindir}/rfpkg
+%if %{with python2}
 %{python2_sitelib}/rfpkg/
 %{python2_sitelib}/rfpkg-%{version}-py%{python2_version}.egg-info/
+%else
+%{python3_sitelib}/rfpkg/
+%{python3_sitelib}/rfpkg-%{version}-py%{python3_version}.egg-info/
+%endif
 %{_mandir}/man1/rfpkg.1*
 %(dirname %{compdir})
 %dir %{_sysconfdir}/rpkg
@@ -82,6 +142,9 @@ mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 
 
 %changelog
+* Tue Mar 26 2019 Leigh Scott <leigh123linux@googlemail.com> - 1.25.6-2
+- Switch to python3 for f30
+
 * Mon Sep 03 2018 Sérgio Basto <sergio@serjux.com> - 1.25.6-1
 - Update to 1.25.6 Fix new warnings of rpkg modules are deprecated
 
