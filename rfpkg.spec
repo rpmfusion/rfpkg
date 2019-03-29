@@ -5,13 +5,14 @@
 
 Name:           rfpkg
 Version:        1.25.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 Patch0:         py3.patch
+Patch1:         koji_destname.patch
 
 BuildArch:      noarch
 
@@ -88,6 +89,7 @@ RPM Fusion utility for working with dist-git.
 %if 0%{?fedora} > 29 || 0%{?rhel} > 8
 %patch0 -p1
 %endif
+%patch1 -p1
 
 %build
 %if %{with python2}
@@ -143,6 +145,9 @@ install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 
 %changelog
+* Fri Mar 29 2019 Leigh Scott <leigh123linux@googlemail.com> - 1.25.6-4
+- Fix --dist/--release option for 'master' %dist detection
+
 * Tue Mar 26 2019 Leigh Scott <leigh123linux@googlemail.com> - 1.25.6-3
 - Fix python2 shebang in python3 build
 
