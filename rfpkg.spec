@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.25.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -145,6 +145,9 @@ install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 
 %changelog
+* Sat Aug 24 2019 Leigh Scott <leigh123linux@gmail.com> - 1.25.6-5
+- Rebuild for python-3.8
+
 * Fri Mar 29 2019 Leigh Scott <leigh123linux@googlemail.com> - 1.25.6-4
 - Fix --dist/--release option for 'master' %dist detection
 
