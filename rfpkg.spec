@@ -17,7 +17,7 @@ Patch1:         koji_destname.patch
 BuildArch:      noarch
 
 # fedpkg command switched to python3 on Fedora 30 and RHEL > 8:
-%if 0%{?fedora} > 29 || 0%{?rhel} > 8
+%if 0%{?fedora} > 29 || 0%{?rhel} > 7
 %bcond_with python2
 %else
 %bcond_without python2
@@ -86,7 +86,7 @@ RPM Fusion utility for working with dist-git.
 
 %prep
 %setup -q
-%if 0%{?fedora} > 29 || 0%{?rhel} > 8
+%if 0%{?fedora} > 29 || 0%{?rhel} > 7
 %patch0 -p1
 %endif
 %patch1 -p1
