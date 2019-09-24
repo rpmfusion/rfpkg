@@ -16,7 +16,7 @@ Patch1:         koji_destname.patch
 
 BuildArch:      noarch
 
-# fedpkg command switched to python3 on Fedora 30 and RHEL > 8:
+# fedpkg command switched to python3 on Fedora 30 and RHEL > 7:
 %if 0%{?fedora} > 29 || 0%{?rhel} > 7
 %bcond_with python2
 %else
@@ -36,7 +36,7 @@ Requires:       koji
 
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
-BuildRequires:  python2-setuptools pkgconfig
+BuildRequires:  pkgconfig
 # We br these things for man page generation due to imports
 BuildRequires:  rpmfusion-cert
 BuildRequires:  packagedb-cli > 2.2
@@ -59,7 +59,7 @@ Requires:       packagedb-cli > 2.2
 BuildRequires:  python3-devel
 BuildRequires:  python3-future
 BuildRequires:  python3-setuptools
-BuildRequires:  python3-setuptools pkgconfig
+BuildRequires:  pkgconfig
 
 # We br these things for man page generation due to imports
 BuildRequires:  python3-rpmfusion-cert
@@ -86,7 +86,7 @@ RPM Fusion utility for working with dist-git.
 
 %prep
 %setup -q
-%if 0%{?fedora} > 29 || 0%{?rhel} > 7
+%if ! %{with python2}
 %patch0 -p1
 %endif
 %patch1 -p1
