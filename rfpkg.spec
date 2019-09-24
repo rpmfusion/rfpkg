@@ -4,15 +4,13 @@
 %endif
 
 Name:           rfpkg
-Version:        1.25.6
-Release:        5%{?dist}
+Version:        1.26.0
+Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
-Patch0:         py3.patch
-Patch1:         koji_destname.patch
 
 BuildArch:      noarch
 
@@ -23,12 +21,12 @@ BuildArch:      noarch
 %bcond_without python2
 %endif
 
+BuildRequires:  pkgconfig
 BuildRequires:  bash-completion
 BuildRequires:  git
 
-Requires:       bodhi-client
-Requires:       redhat-rpm-config
 Requires:       koji
+Requires:       redhat-rpm-config
 
 %if %{with python2}
 # This package redefines __python and can use the python_ macros
@@ -36,16 +34,15 @@ Requires:       koji
 
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
-BuildRequires:  pkgconfig
 # We br these things for man page generation due to imports
 BuildRequires:  rpmfusion-cert
 BuildRequires:  packagedb-cli > 2.2
-BuildRequires:  pyrpkg >= 1.44
+BuildRequires:  python2-rpkg >= 1.45
 # For testing
 BuildRequires:  python-nose
 BuildRequires:  python-mock
 
-Requires:       pyrpkg >= 1.45
+Requires:       python2-rpkg >= 1.45
 Requires:       python-pycurl
 Requires:       python-fedora
 Requires:       rpmfusion-cert
@@ -59,7 +56,6 @@ Requires:       packagedb-cli > 2.2
 BuildRequires:  python3-devel
 BuildRequires:  python3-future
 BuildRequires:  python3-setuptools
-BuildRequires:  pkgconfig
 
 # We br these things for man page generation due to imports
 BuildRequires:  python3-rpmfusion-cert
@@ -67,8 +63,8 @@ BuildRequires:  rfpkgdb-cli
 BuildRequires:  python3-rpkg
 
 # For testing
-BuildRequires:  python3-nose
 BuildRequires:  python3-mock
+BuildRequires:  python3-nose
 
 Requires:       python3-rpkg
 Requires:       redhat-rpm-config
@@ -81,54 +77,44 @@ Requires:       bodhi-client
 Requires:       rfpkgdb-cli
 %endif
 
+
 %description
 RPM Fusion utility for working with dist-git.
 
 %prep
 %setup -q
-%if ! %{with python2}
-%patch0 -p1
-%endif
-%patch1 -p1
 
 %build
-%if %{with python2}
-%py2_build
-%{__python2} src/rfpkg_man_page.py > rfpkg.1
-%else
-%py3_build
-%{__python3} src/rfpkg_man_page.py > rfpkg.1
-%endif
+%py_build
+%{__python} doc/rfpkg_man_page.py > rfpkg.1
+
 
 %install
-%if %{with python2}
-%py2_install
-
-sed -e 's|^#!python|#!%{__python2}|g' -i $RPM_BUILD_ROOT%{_bindir}/rfpkg
-chmod a+x $RPM_BUILD_ROOT%{python2_sitelib}/rfpkg/__main__.py
-
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
-install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
+%py_install
+%{__install} -d %{buildroot}%{_mandir}/man1
+%{__install} -p -m 0644 rfpkg.1 %{buildroot}%{_mandir}/man1
 %if 0%{?rhel} && 0%{?rhel} == 7
 # The completion file must be named similarly to the command.
-mv $RPM_BUILD_ROOT%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
+mv %{buildroot}%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 %endif
+
+
+%check
+%if 0%{?rhel} == 6
+# cannot use -m nose on EL6 (python 2.6)
+nosetests
 %else
-%py3_install
-
-sed -e 's|^#!python|#!%{__python3}|g' -i $RPM_BUILD_ROOT%{_bindir}/rfpkg
-sed -e 's|^#!/usr/bin/python2|#!%{__python3}|g' -i $RPM_BUILD_ROOT%{python3_sitelib}/rfpkg/__main__.py
-chmod a+x $RPM_BUILD_ROOT%{python3_sitelib}/rfpkg/__main__.py
-
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
-install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
+#{__python} -m nose
 %endif
 
 
 %files
 %doc README
 %license COPYING
+%config(noreplace) %{_sysconfdir}/rpkg/rfpkg.conf
+%(dirname %{compdir})
 %{_bindir}/rfpkg
+%{_mandir}/man1/rfpkg.1*
 %if %{with python2}
 %{python2_sitelib}/rfpkg/
 %{python2_sitelib}/rfpkg-%{version}-py%{python2_version}.egg-info/
@@ -136,15 +122,15 @@ install -p -m 0644 rfpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %{python3_sitelib}/rfpkg/
 %{python3_sitelib}/rfpkg-%{version}-py%{python3_version}.egg-info/
 %endif
-%{_mandir}/man1/rfpkg.1*
-%(dirname %{compdir})
-%dir %{_sysconfdir}/rpkg
-%config(noreplace) %{_sysconfdir}/rpkg/rfpkg.conf
 # zsh completion
 %{_datadir}/zsh/site-functions/_%{name}
 
 
 %changelog
+* Tue Sep 24 2019 Sérgio Basto <sergio@serjux.com> - 1.26.0-1
+- Update to 1.26.0
+- Sync with fedpkg 1.37
+
 * Sat Aug 24 2019 Leigh Scott <leigh123linux@gmail.com> - 1.25.6-5
 - Rebuild for python-3.8
 
