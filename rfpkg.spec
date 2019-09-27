@@ -4,7 +4,7 @@
 %endif
 
 Name:           rfpkg
-Version:        1.26.1
+Version:        1.26.2
 Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
@@ -127,6 +127,9 @@ nosetests
 
 
 %changelog
+* Thu Sep 26 2019 Sérgio Basto <sergio@serjux.com> - 1.26.2-1
+- New version with more fixes on multilib builds and python2
+
 * Tue Sep 24 2019 Sérgio Basto <sergio@serjux.com> - 1.26.1-1
 - Bug fix (rfpkg new-sources)
 
