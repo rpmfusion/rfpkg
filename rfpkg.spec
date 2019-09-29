@@ -23,6 +23,7 @@ BuildArch:      noarch
 
 BuildRequires:  pkgconfig
 BuildRequires:  bash-completion
+BuildRequires:  python-rpm-macros
 
 Requires:       git
 Requires:       koji
@@ -30,9 +31,9 @@ Requires:       redhat-rpm-config
 
 %if %{with python2}
 # This package redefines __python and can use the python_ macros
-%global __python %{__python2}
 
-BuildRequires:  python2-devel
+BuildRequires:  python2
+BuildRequires:  python2-rpm-macros
 BuildRequires:  python2-setuptools
 # We br these things for man page generation due to imports
 BuildRequires:  rpmfusion-cert
@@ -51,9 +52,9 @@ Requires:       packagedb-cli > 2.2
 
 %else  # python3
 # This package redefines __python and can use the python_ macros
-%global __python %{__python3}
 
-BuildRequires:  python3-devel
+BuildRequires:  python3
+BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-setuptools
 
 # We br these things for man page generation due to imports
@@ -83,12 +84,21 @@ RPM Fusion utility for working with dist-git.
 %setup -q
 
 %build
+%if %{with python2}
 %py_build
 %{__python} doc/rfpkg_man_page.py > rfpkg.1
+%else
+%py3_build
+%{__python3} doc/rfpkg_man_page.py > rfpkg.1
+%endif
 
 
 %install
+%if %{with python2}
 %py_install
+%else
+%py3_install
+%endif
 %{__install} -d %{buildroot}%{_mandir}/man1
 %{__install} -p -m 0644 rfpkg.1 %{buildroot}%{_mandir}/man1
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -102,7 +112,11 @@ mv %{buildroot}%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 # cannot use -m nose on EL6 (python 2.6)
 nosetests
 %else
-#{__python} -m nose
+%if %{with python2}
+#{__python2} -m nose
+%else
+#{__python3} -m nose
+%endif
 %endif
 
 
