@@ -85,8 +85,8 @@ RPM Fusion utility for working with dist-git.
 
 %build
 %if %{with python2}
-%py_build
-%{__python} doc/rfpkg_man_page.py > rfpkg.1
+%py2_build
+%{__python2} doc/rfpkg_man_page.py > rfpkg.1
 %else
 %py3_build
 %{__python3} doc/rfpkg_man_page.py > rfpkg.1
@@ -95,7 +95,7 @@ RPM Fusion utility for working with dist-git.
 
 %install
 %if %{with python2}
-%py_install
+%py2_install
 %else
 %py3_install
 %endif
