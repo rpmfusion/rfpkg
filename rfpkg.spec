@@ -30,7 +30,6 @@ Requires:       koji
 Requires:       redhat-rpm-config
 
 %if %{with python2}
-# This package redefines __python and can use the python_ macros
 
 BuildRequires:  python2
 BuildRequires:  python2-rpm-macros
@@ -51,7 +50,6 @@ Requires:       rpmfusion-packager >= 0.6.1
 Requires:       packagedb-cli > 2.2
 
 %else  # python3
-# This package redefines __python and can use the python_ macros
 
 BuildRequires:  python3
 BuildRequires:  python3-rpm-macros
