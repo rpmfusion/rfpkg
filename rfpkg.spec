@@ -4,17 +4,13 @@
 %endif
 
 Name:           rfpkg
-Version:        1.26.2
-Release:        3%{?dist}
+Version:        1.26.3
+Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
-# Fix error in F32
-#     if mydist:
-# UnboundLocalError: local variable 'mydist' referenced before assignment
-Patch0:         fix_deprecated.patch
 
 BuildArch:      noarch
 
@@ -53,7 +49,7 @@ Requires:       rpmfusion-cert
 Requires:       rpmfusion-packager >= 0.6.1
 Requires:       packagedb-cli > 2.2
 
-%else  # python3
+%else
 
 BuildRequires:  python3
 BuildRequires:  python3-rpm-macros
@@ -84,9 +80,6 @@ RPM Fusion utility for working with dist-git.
 
 %prep
 %setup -q
-%if 0%{?fedora} > 31
-%patch0 -p1
-%endif
 
 %build
 %if %{with python2}
@@ -144,6 +137,9 @@ nosetests
 
 
 %changelog
+* Sat Mar 14 2020 Sérgio Basto <sergio@serjux.com> - 1.26.3-1
+- Update to 1.26.3
+
 * Tue Nov 05 2019 Leigh Scott <leigh123linux@googlemail.com> - 1.26.2-3
 - Fix F32 issue
 
