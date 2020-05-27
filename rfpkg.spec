@@ -80,7 +80,7 @@ Requires:       rfpkgdb-cli
 RPM Fusion utility for working with dist-git.
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 %if %{with python2}
