@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.26.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -138,6 +138,9 @@ nosetests
 
 
 %changelog
+* Sat May 30 2020 Leigh Scott <leigh123linux@gmail.com> - 1.26.3-3
+- Rebuild for python-3.9
+
 * Wed May 27 2020 Sérgio Basto <sergio@serjux.com> - 1.26.3-2
 - Add zsnes, gens and dega-sdl to multilibs
 
