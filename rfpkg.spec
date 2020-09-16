@@ -5,13 +5,15 @@
 
 Name:           rfpkg
 Version:        1.26.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 Patch0:         %url/commit/be33cce92923328b613e4245bfb28f2c10c93f35.patch
+Patch1:         %url/commit/d0ec0eb608024ecd6df60b1c567fd552d7e7e41d.patch
+Patch2:         rfpkg-test.patch
 
 BuildArch:      noarch
 
@@ -31,7 +33,6 @@ Requires:       koji
 Requires:       redhat-rpm-config
 
 %if %{with python2}
-
 BuildRequires:  python2
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python2-setuptools
@@ -51,19 +52,21 @@ Requires:       rpmfusion-packager >= 0.6.1
 Requires:       packagedb-cli > 2.2
 
 %else
-
-BuildRequires:  python3
-BuildRequires:  python3-rpm-macros
-BuildRequires:  python3-setuptools
+BuildRequires:  python3-devel
+BuildRequires:  python3-rpkg
+BuildRequires:  python3-distro
 
 # We br these things for man page generation due to imports
 BuildRequires:  python3-rpmfusion-cert
 BuildRequires:  rfpkgdb-cli
-BuildRequires:  python3-rpkg
 
 # For testing
 BuildRequires:  python3-mock
 BuildRequires:  python3-nose
+BuildRequires:  python3-setuptools
+#BuildRequires:  python3-bugzilla
+#BuildRequires:  python3-freezegun
+#BuildRequires:  python3-bodhi-client
 
 Requires:       python3-rpkg
 Requires:       redhat-rpm-config
@@ -114,7 +117,7 @@ nosetests
 %if %{with python2}
 #{__python2} -m nose
 %else
-#{__python3} -m nose
+%{__python3} -m nose
 %endif
 %endif
 
@@ -138,6 +141,9 @@ nosetests
 
 
 %changelog
+* Wed Sep 16 2020 Sérgio Basto <sergio@serjux.com> - 1.26.3-4
+- Fix (#5756) and python3 -m nose
+
 * Sat May 30 2020 Leigh Scott <leigh123linux@gmail.com> - 1.26.3-3
 - Rebuild for python-3.9
 
