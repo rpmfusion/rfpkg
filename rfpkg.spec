@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.26.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -28,7 +28,7 @@ BuildRequires:  pkgconfig
 BuildRequires:  bash-completion
 BuildRequires:  python-rpm-macros
 
-Requires:       git
+Requires:       git-core
 Requires:       koji
 Requires:       redhat-rpm-config
 
@@ -36,25 +36,27 @@ Requires:       redhat-rpm-config
 BuildRequires:  python2
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python2-setuptools
+BuildRequires:  python2-rpkg >= 1.45
 # We br these things for man page generation due to imports
 BuildRequires:  rpmfusion-cert
 BuildRequires:  packagedb-cli > 2.2
-BuildRequires:  python2-rpkg >= 1.45
 # For testing
 BuildRequires:  python-nose
 BuildRequires:  python-mock
 
 Requires:       python2-rpkg >= 1.45
 Requires:       python-pycurl
-Requires:       python-fedora
+# We need this for what ?
+#Requires:       python-fedora
 Requires:       rpmfusion-cert
-Requires:       rpmfusion-packager >= 0.6.1
 Requires:       packagedb-cli > 2.2
 
 %else
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-rpkg
-BuildRequires:  python3-distro
+# We need this for what ?
+#BuildRequires:  python3-distro
 
 # We br these things for man page generation due to imports
 BuildRequires:  python3-rpmfusion-cert
@@ -63,18 +65,15 @@ BuildRequires:  rfpkgdb-cli
 # For testing
 BuildRequires:  python3-mock
 BuildRequires:  python3-nose
-BuildRequires:  python3-setuptools
 #BuildRequires:  python3-bugzilla
 #BuildRequires:  python3-freezegun
 #BuildRequires:  python3-bodhi-client
 
 Requires:       python3-rpkg
-Requires:       redhat-rpm-config
 Requires:       python3-pycurl
-Requires:       python3-fedora
+# We need this for what ?
+# Requires:       python3-fedora
 Requires:       python3-rpmfusion-cert
-Requires:       rpmfusion-packager >= 0.6.3-2
-Requires:       bodhi-client
 Requires:       rfpkgdb-cli
 %endif
 
@@ -141,6 +140,9 @@ nosetests
 
 
 %changelog
+* Sun Nov 29 2020 Sérgio Basto <sergio@serjux.com> - 1.26.3-5
+- Requires and BuildRequires review
+
 * Wed Sep 16 2020 Sérgio Basto <sergio@serjux.com> - 1.26.3-4
 - Fix (#5756) and python3 -m nose
 
