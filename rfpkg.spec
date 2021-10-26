@@ -4,16 +4,13 @@
 %endif
 
 Name:           rfpkg
-Version:        1.26.3
-Release:        6%{?dist}
+Version:        1.27.0
+Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
-Patch0:         %url/commit/be33cce92923328b613e4245bfb28f2c10c93f35.patch
-Patch1:         %url/commit/d0ec0eb608024ecd6df60b1c567fd552d7e7e41d.patch
-Patch2:         rfpkg-test.patch
 
 BuildArch:      noarch
 
@@ -37,6 +34,7 @@ BuildRequires:  python2
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-rpkg >= 1.45
+BuildRequires:  python-six
 # We br these things for man page generation due to imports
 BuildRequires:  rpmfusion-cert
 BuildRequires:  packagedb-cli > 2.2
@@ -55,6 +53,7 @@ Requires:       packagedb-cli > 2.2
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-rpkg
+BuildRequires:  python3-six
 # We need this for what ?
 #BuildRequires:  python3-distro
 
@@ -140,6 +139,9 @@ nosetests
 
 
 %changelog
+* Sat Oct 23 2021 Sérgio Basto <sergio@serjux.com> - 1.27.0-1
+- Update to 1.27.0
+
 * Tue Jun 15 2021 Leigh Scott <leigh123linux@gmail.com> - 1.26.3-6
 - Rebuild for python-3.10
 
