@@ -5,12 +5,14 @@
 
 Name:           rfpkg
 Version:        1.27.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch1:         0001-Add-xorg-x11-drv-nvidia-470xx-to-multilibs.patch
+Patch2:         0002-Add-unace-to-multilibs-because-is-an-i686-package.patch
 
 BuildArch:      noarch
 
@@ -139,6 +141,9 @@ nosetests
 
 
 %changelog
+* Sat Feb 12 2022 Sérgio Basto <sergio@serjux.com> - 1.27.0-2
+- update target of 2 packages
+
 * Sat Oct 23 2021 Sérgio Basto <sergio@serjux.com> - 1.27.0-1
 - Update to 1.27.0
 
