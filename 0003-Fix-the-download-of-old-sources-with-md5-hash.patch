@@ -1,0 +1,47 @@
+From b1284ae05677e92391d115057316b32b0fd77f8f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9rgio=20M=2E=20Basto?= <sergio@serjux.com>
+Date: Mon, 14 Feb 2022 02:30:26 +0000
+Subject: [PATCH 3/3] Fix the download of old sources with md5 hash
+
+---
+ rfpkg/lookaside.py | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/rfpkg/lookaside.py b/rfpkg/lookaside.py
+index dbdca57..7e4a619 100644
+--- a/rfpkg/lookaside.py
++++ b/rfpkg/lookaside.py
+@@ -14,6 +14,7 @@ download path.
+ """
+ 
+ 
++import os
+ from pyrpkg.lookaside import CGILookasideCache
+ 
+ 
+@@ -24,10 +25,18 @@ class RPMFusionLookasideCache(CGILookasideCache):
+             hashtype, download_url, upload_url, client_cert=client_cert,
+             ca_cert=ca_cert)
+ 
++        self.download_path_md5 = (
++            namespace + '/%(name)s/%(filename)s/%(hash)s/%(filename)s')
++        self.download_path = (
++            namespace + '/%(name)s/%(filename)s/%(hashtype)s/%(hash)s/%(filename)s')
++
++    def get_download_url(self, name, filename, hash, hashtype=None, **kwargs):
++        path_dict = {'name': name, 'filename': filename,
++                     'hash': hash, 'hashtype': hashtype}
++        path_dict.update(kwargs)
+         if hashtype == 'md5':
+-            self.download_path = (
+-                namespace + '/%(name)s/%(filename)s/%(hash)s/%(filename)s')
++            path = self.download_path_md5 % path_dict
+         else:
+-            self.download_path = (
+-                namespace + '/%(name)s/%(filename)s/%(hashtype)s/%(hash)s/%(filename)s')
++            path = self.download_path % path_dict
++        return os.path.join(self.download_url, path)
+ 
+-- 
+2.34.1
+
