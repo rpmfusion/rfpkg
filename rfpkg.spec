@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.27.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -13,6 +13,7 @@ URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 Patch1:         0001-Add-xorg-x11-drv-nvidia-470xx-to-multilibs.patch
 Patch2:         0002-Add-unace-to-multilibs-because-is-an-i686-package.patch
+Patch3:         0003-Fix-the-download-of-old-sources-with-md5-hash.patch
 
 BuildArch:      noarch
 
@@ -141,6 +142,9 @@ nosetests
 
 
 %changelog
+* Tue May 24 2022 Sérgio Basto <sergio@serjux.com> - 1.27.0-4
+- now that is add the patch to fix to download of old sources with md5 hash
+
 * Tue Feb 15 2022 Sérgio Basto <sergio@serjux.com> - 1.27.0-3
 - add an fix to download of old sources with md5 hash
 
