@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.27.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -142,6 +142,9 @@ nosetests
 
 
 %changelog
+* Sat Jun 25 2022 Robert-André Mauchin <zebob.m@gmail.com> - 1.27.0-5
+- Rebuilt for Python 3.11
+
 * Tue May 24 2022 Sérgio Basto <sergio@serjux.com> - 1.27.0-4
 - now that is add the patch to fix to download of old sources with md5 hash
 
