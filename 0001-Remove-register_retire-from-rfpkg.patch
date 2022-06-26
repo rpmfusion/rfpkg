@@ -1,0 +1,53 @@
+From 7095c31dee518b29d8c8867a6d4241a6a49783e6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Robert-Andr=C3=A9=20Mauchin?= <zebob.m@gmail.com>
+Date: Sun, 26 Jun 2022 20:45:19 +0200
+Subject: [PATCH] Remove register_retire from rfpkg
+
+Don't register again the retire command as it is already done
+by pyrpkg. Starting Python 3.11, it creates an error.
+See https://github.com/python/cpython/pull/18605
+
+Fix #24
+---
+ rfpkg/cli.py | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
+
+diff --git a/rfpkg/cli.py b/rfpkg/cli.py
+index 0096d8f..9f91c12 100644
+--- a/rfpkg/cli.py
++++ b/rfpkg/cli.py
+@@ -51,27 +51,15 @@ class rfpkgClient(cliClient):
+     def setup_fed_subparsers(self):
+         """Register the fedora specific targets"""
+ 
+-        self.register_retire()
++        # Don't register again the retire command as it is already done
++        # by pyrpkg. Starting Python 3.11, it creates an error.
++        # https://github.com/python/cpython/pull/18605
++        #self.register_retire()
+ 
+         # Don't register the update command, as rpmfusion does not have a
+         # bodhi instance to send update requests to
+         #self.register_update()
+ 
+-    # Target registry goes here
+-    def register_retire(self):
+-        """Register the retire target"""
+-
+-        retire_parser = self.subparsers.add_parser(
+-            'retire',
+-            help='Retire a package',
+-            description='This command will remove all files from the repo, '
+-                        'leave a dead.package file, push the changes and '
+-                        'retire the package in pkgdb.'
+-        )
+-        retire_parser.add_argument('reason',
+-                                   help='Reason for retiring the package')
+-        retire_parser.set_defaults(command=self.retire)
+-
+     # Target functions go here
+     def _format_update_clog(self, clog):
+         ''' Format clog for the update template. '''
+-- 
+2.36.1
+

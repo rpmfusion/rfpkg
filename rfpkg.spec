@@ -14,6 +14,9 @@ Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 Patch1:         0001-Add-xorg-x11-drv-nvidia-470xx-to-multilibs.patch
 Patch2:         0002-Add-unace-to-multilibs-because-is-an-i686-package.patch
 Patch3:         0003-Fix-the-download-of-old-sources-with-md5-hash.patch
+# Removing duplicate retire parser because of incompatibility with Python 3.11
+# See https://github.com/rpmfusion-infra/rfpkg/pull/25
+Patch4:         0001-Remove-register_retire-from-rfpkg.patch
 
 BuildArch:      noarch
 
