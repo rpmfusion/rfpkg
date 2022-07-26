@@ -47,33 +47,30 @@ BuildRequires:  packagedb-cli > 2.2
 # For testing
 BuildRequires:  python-nose
 BuildRequires:  python-mock
-
-Requires:       python2-rpkg >= 1.45
-Requires:       python-pycurl
-# We need this for what ?
-#Requires:       python-fedora
-Requires:       rpmfusion-cert
-Requires:       packagedb-cli > 2.2
-
 %else
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-rpkg
 BuildRequires:  python3-six
-# We need this for what ?
-#BuildRequires:  python3-distro
-
 # We br these things for man page generation due to imports
 BuildRequires:  python3-rpmfusion-cert
 BuildRequires:  rfpkgdb-cli
-
 # For testing
 BuildRequires:  python3-mock
 BuildRequires:  python3-nose
 #BuildRequires:  python3-bugzilla
 #BuildRequires:  python3-freezegun
 #BuildRequires:  python3-bodhi-client
+%endif
 
+%if %{with python2}
+Requires:       python2-rpkg >= 1.45
+Requires:       python-pycurl
+# We need this for what ?
+#Requires:       python-fedora
+Requires:       rpmfusion-cert
+Requires:       packagedb-cli > 2.2
+%else
 Requires:       python3-rpkg
 Requires:       python3-pycurl
 # We need this for what ?
