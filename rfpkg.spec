@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.27.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -17,6 +17,7 @@ Patch3:         0003-Fix-the-download-of-old-sources-with-md5-hash.patch
 # Removing duplicate retire parser because of incompatibility with Python 3.11
 # See https://github.com/rpmfusion-infra/rfpkg/pull/25
 Patch4:         0001-Remove-register_retire-from-rfpkg.patch
+Patch5:         0001-disable-multilibs-builds-on-el8-9-and-9-next.patch
 
 BuildArch:      noarch
 
@@ -151,6 +152,9 @@ nosetests
 
 
 %changelog
+* Tue Sep 06 2022 Sérgio Basto <sergio@serjux.com> - 1.27.0-6
+- Disable multilibs builds on el8, 9 and 9-next
+
 * Sat Jun 25 2022 Robert-André Mauchin <zebob.m@gmail.com> - 1.27.0-5
 - Rebuilt for Python 3.11
 
