@@ -30,11 +30,6 @@ BuildArch:      noarch
 BuildRequires:  pkgconfig
 BuildRequires:  bash-completion
 BuildRequires:  python-rpm-macros
-
-Requires:       git-core
-Requires:       koji
-Requires:       redhat-rpm-config
-
 %if %{with python2}
 BuildRequires:  python2
 BuildRequires:  python2-rpm-macros
@@ -79,6 +74,20 @@ Requires:       python3-rpmfusion-cert
 Requires:       rfpkgdb-cli
 %endif
 
+# python3-rpkg already requires
+# mock
+# redhat-rpm-config
+# rpm-build
+# rpmlint
+Requires:       git-core
+Requires:       koji
+%if 0%{?rhel} && 0%{?rhel} <= 7
+Requires:       rpmdevtools
+Requires:       mock-rpmfusion-free
+%else
+Suggests:       rpmdevtools
+Suggests:       mock-rpmfusion-free
+%endif
 
 %description
 RPM Fusion utility for working with dist-git.
