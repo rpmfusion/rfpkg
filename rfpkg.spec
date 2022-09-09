@@ -147,6 +147,7 @@ nosetests
 %changelog
 * Fri Sep 09 2022 Sérgio Basto <sergio@serjux.com> - 1.27.1-1
 - Update rfpkg to 1.27.1
+- tag has moved to a new commit
 
 * Fri Sep 09 2022 Leigh Scott <leigh123linux@gmail.com> - 1.27.0-7
 - Fix for rpkg-1.65 change
