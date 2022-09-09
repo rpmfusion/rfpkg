@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.27.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -18,6 +18,7 @@ Patch3:         0003-Fix-the-download-of-old-sources-with-md5-hash.patch
 # See https://github.com/rpmfusion-infra/rfpkg/pull/25
 Patch4:         0001-Remove-register_retire-from-rfpkg.patch
 Patch5:         0001-disable-multilibs-builds-on-el8-9-and-9-next.patch
+Patch6:         fix_for_rpkg_change.patch
 
 BuildArch:      noarch
 
@@ -152,6 +153,9 @@ nosetests
 
 
 %changelog
+* Fri Sep 09 2022 Leigh Scott <leigh123linux@gmail.com> - 1.27.0-7
+- Fix for rpkg-1.65 change
+
 * Tue Sep 06 2022 Sérgio Basto <sergio@serjux.com> - 1.27.0-6
 - Disable multilibs builds on el8, 9 and 9-next
 
