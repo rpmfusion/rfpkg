@@ -5,12 +5,13 @@
 
 Name:           rfpkg
 Version:        1.27.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch1:         0001-Use-unittest.mock-on-Python-3-and-remove-python3-moc.patch
 
 BuildArch:      noarch
 
@@ -45,10 +46,11 @@ BuildRequires:  python3-six
 BuildRequires:  python3-rpmfusion-cert
 BuildRequires:  rfpkgdb-cli
 # For testing
-BuildRequires:  python3-mock
-BuildRequires:  python3-nose
+BuildRequires:  python3-pytest
+BuildRequires:  python3-distro
+BuildRequires:  python3-fedora
 #BuildRequires:  python3-bugzilla
-#BuildRequires:  python3-freezegun
+BuildRequires:  python3-freezegun
 #BuildRequires:  python3-bodhi-client
 %endif
 
@@ -114,15 +116,15 @@ mv %{buildroot}%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
 
 
 %check
+%if %{with python2}
 %if 0%{?rhel} == 6
 # cannot use -m nose on EL6 (python 2.6)
 nosetests
 %else
-%if %{with python2}
 #{__python2} -m nose
-%else
-%{__python3} -m nose
 %endif
+%else
+%pytest
 %endif
 
 
@@ -145,6 +147,10 @@ nosetests
 
 
 %changelog
+* Sun Oct 02 2022 Sérgio Basto <sergio@serjux.com> - 1.27.1-2
+- Use unittest.mock on Python 3 and remove python3-mock dependency, to allow
+  build on el9
+
 * Fri Sep 09 2022 Sérgio Basto <sergio@serjux.com> - 1.27.1-1
 - Update rfpkg to 1.27.1
 - tag has moved to a new commit
