@@ -4,14 +4,13 @@
 %endif
 
 Name:           rfpkg
-Version:        1.27.1
-Release:        2%{?dist}
+Version:        1.27.2
+Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
-Patch1:         0001-Use-unittest.mock-on-Python-3-and-remove-python3-moc.patch
 
 BuildArch:      noarch
 
@@ -147,6 +146,9 @@ nosetests
 
 
 %changelog
+* Mon Dec 19 2022 Sérgio Basto <sergio@serjux.com> - 1.27.2-1
+- Update rfpkg to 1.27.2
+
 * Sun Oct 02 2022 Sérgio Basto <sergio@serjux.com> - 1.27.1-2
 - Use unittest.mock on Python 3 and remove python3-mock dependency, to allow
   build on el9
