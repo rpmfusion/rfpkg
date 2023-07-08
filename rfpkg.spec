@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.27.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -146,6 +146,9 @@ nosetests
 
 
 %changelog
+* Sat Jul 08 2023 Leigh Scott <leigh123linux@gmail.com> - 1.27.2-2
+- Rebuilt for Python 3.12
+
 * Mon Dec 19 2022 Sérgio Basto <sergio@serjux.com> - 1.27.2-1
 - Update rfpkg to 1.27.2
 
