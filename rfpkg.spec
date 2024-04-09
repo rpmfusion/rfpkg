@@ -4,7 +4,7 @@
 %endif
 
 Name:           rfpkg
-Version:        1.27.3
+Version:        1.27.4
 Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
@@ -131,7 +131,7 @@ nosetests
 %doc README
 %license COPYING
 %config(noreplace) %{_sysconfdir}/rpkg/rfpkg.conf
-%(dirname %{compdir})
+%{compdir}
 %{_bindir}/rfpkg
 %{_mandir}/man1/rfpkg.1*
 %if %{with python2}
@@ -146,6 +146,9 @@ nosetests
 
 
 %changelog
+* Mon Apr 08 2024 Sérgio Basto <sergio@serjux.com> - 1.27.4-1
+- Update rfpkg to 1.27.4
+
 * Fri Feb 02 2024 Nicolas Chauvet <kwizart@gmail.com> - 1.27.3-1
 - Update to 1.27.3
 
