@@ -5,7 +5,7 @@
 
 Name:           rfpkg
 Version:        1.27.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -146,6 +146,9 @@ nosetests
 
 
 %changelog
+* Thu Jun 13 2024 Leigh Scott <leigh123linux@gmail.com> - 1.27.4-2
+- Rebuilt for Python 3.13
+
 * Mon Apr 08 2024 Sérgio Basto <sergio@serjux.com> - 1.27.4-1
 - Update rfpkg to 1.27.4
 
