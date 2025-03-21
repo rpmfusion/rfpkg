@@ -1,11 +1,6 @@
-%define compdir %(pkg-config --variable=completionsdir bash-completion)
-%if "%{compdir}" == ""
-%define compdir "/etc/bash_completion.d"
-%endif
-
 Name:           rfpkg
 Version:        1.27.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -14,29 +9,9 @@ Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
 
-# fedpkg command switched to python3 on Fedora 30 and RHEL > 7:
-%if 0%{?fedora} > 29 || 0%{?rhel} > 7
-%bcond_with python2
-%else
-%bcond_without python2
-%endif
-
 BuildRequires:  pkgconfig
-BuildRequires:  bash-completion
+BuildRequires:  bash-completion-devel
 BuildRequires:  python-rpm-macros
-%if %{with python2}
-BuildRequires:  python2
-BuildRequires:  python2-rpm-macros
-BuildRequires:  python2-setuptools
-BuildRequires:  python2-rpkg >= 1.45
-BuildRequires:  python-six
-# We br these things for man page generation due to imports
-BuildRequires:  rpmfusion-cert
-BuildRequires:  packagedb-cli > 2.2
-# For testing
-BuildRequires:  python-nose
-BuildRequires:  python-mock
-%else
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-rpkg
@@ -47,27 +22,14 @@ BuildRequires:  rfpkgdb-cli
 # For testing
 BuildRequires:  python3-pytest
 BuildRequires:  python3-distro
-BuildRequires:  python3-fedora
 #BuildRequires:  python3-bugzilla
 BuildRequires:  python3-freezegun
 #BuildRequires:  python3-bodhi-client
-%endif
 
-%if %{with python2}
-Requires:       python2-rpkg >= 1.45
-Requires:       python-pycurl
-# We need this for what ?
-#Requires:       python-fedora
-Requires:       rpmfusion-cert
-Requires:       packagedb-cli > 2.2
-%else
 Requires:       python3-rpkg
 Requires:       python3-pycurl
-# We need this for what ?
-# Requires:       python3-fedora
 Requires:       python3-rpmfusion-cert
 Requires:       rfpkgdb-cli
-%endif
 
 # python3-rpkg already requires
 # mock
@@ -76,13 +38,9 @@ Requires:       rfpkgdb-cli
 # rpmlint
 Requires:       git-core
 Requires:       koji
-%if 0%{?rhel} && 0%{?rhel} <= 7
-Requires:       rpmdevtools
-Requires:       mock-rpmfusion-free
-%else
-Suggests:       rpmdevtools
-Suggests:       mock-rpmfusion-free
-%endif
+Recommends:     rpmdevtools
+Recommends:     mock-rpmfusion-free
+Recommends:     mock-rpmfusion-nonfree
 
 %description
 RPM Fusion utility for working with dist-git.
@@ -91,61 +49,38 @@ RPM Fusion utility for working with dist-git.
 %autosetup -p1
 
 %build
-%if %{with python2}
-%py2_build
-%{__python2} doc/rfpkg_man_page.py > rfpkg.1
-%else
 %py3_build
 %{__python3} doc/rfpkg_man_page.py > rfpkg.1
-%endif
 
 
 %install
-%if %{with python2}
-%py2_install
-%else
 %py3_install
-%endif
 %{__install} -d %{buildroot}%{_mandir}/man1
 %{__install} -p -m 0644 rfpkg.1 %{buildroot}%{_mandir}/man1
-%if 0%{?rhel} && 0%{?rhel} == 7
-# The completion file must be named similarly to the command.
-mv %{buildroot}%{compdir}/rfpkg.bash $RPM_BUILD_ROOT%{compdir}/rfpkg
-%endif
 
 
 %check
-%if %{with python2}
-%if 0%{?rhel} == 6
-# cannot use -m nose on EL6 (python 2.6)
-nosetests
-%else
-#{__python2} -m nose
-%endif
-%else
 %pytest
-%endif
 
 
 %files
 %doc README
 %license COPYING
 %config(noreplace) %{_sysconfdir}/rpkg/rfpkg.conf
-%{compdir}
 %{_bindir}/rfpkg
 %{_mandir}/man1/rfpkg.1*
-%if %{with python2}
-%{python2_sitelib}/rfpkg/
-%{python2_sitelib}/rfpkg-%{version}-py%{python2_version}.egg-info/
-%else
 %{python3_sitelib}/rfpkg/
 %{python3_sitelib}/rfpkg-%{version}-py%{python3_version}.egg-info/
-%endif
+%bash_completions_dir/rfpkg.bash
 # zsh completion
-%{_datadir}/zsh/site-functions/_%{name}
+%zsh_completions_dir/_%{name}
 
 
 %changelog
+* Fri Jan 31 2025 Sérgio Basto <sergio@serjux.com> - 1.27.4-3
+- Use recommends instead suggests for mock-rpmfusion configurations and rpmdevtools
+- Drop support to el7 and python2
+
 * Thu Jun 13 2024 Leigh Scott <leigh123linux@gmail.com> - 1.27.4-2
 - Rebuilt for Python 3.13
 
