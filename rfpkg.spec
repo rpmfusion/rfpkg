@@ -10,7 +10,7 @@ Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  pkgconfig
-BuildRequires:  bash-completion-devel
+BuildRequires:  pkgconfig(bash-completion)
 BuildRequires:  python-rpm-macros
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
