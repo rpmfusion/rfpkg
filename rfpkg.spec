@@ -1,11 +1,13 @@
 Name:           rfpkg
 Version:        1.27.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch1:         0001-refresh-conf-bash-completion-rfpkg.bash-with-a-copy-.patch
+Patch2:         0002-There-is-no-point-looking-for-namespace-if-it-is-not.patch
 
 BuildArch:      noarch
 
@@ -77,6 +79,9 @@ RPM Fusion utility for working with dist-git.
 
 
 %changelog
+* Sat Apr 12 2025 Sérgio Basto <sergio@serjux.com> - 1.27.4-4
+- Add last two commits upstreamed
+
 * Fri Jan 31 2025 Sérgio Basto <sergio@serjux.com> - 1.27.4-3
 - Use recommends instead suggests for mock-rpmfusion configurations and rpmdevtools
 - Drop support to el7 and python2

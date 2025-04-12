@@ -1,0 +1,27 @@
+From 56177c0cac32e0489c4fe662e3a9b6cdb01224c0 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9rgio=20M=2E=20Basto?= <sergio@serjux.com>
+Date: Mon, 7 Apr 2025 04:06:04 +0100
+Subject: [PATCH 2/2] There is no point looking for namespace if it is not one
+ rpmfusion.org repo
+
+We can only get enigmatic results like: "Unknown build target: f41-rpms"
+---
+ rfpkg/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rfpkg/__init__.py b/rfpkg/__init__.py
+index 768063a..b8b7535 100644
+--- a/rfpkg/__init__.py
++++ b/rfpkg/__init__.py
+@@ -92,7 +92,7 @@ class Commands(pyrpkg.Commands):
+         """Loads a RPM Fusion package repository."""
+ 
+         try:
+-            if self.push_url:
++            if self.push_url and "rpmfusion.org" in self.push_url:
+                 parts = urlparse(self.push_url)
+ 
+                 if self.distgit_namespaced:
+-- 
+2.49.0
+
