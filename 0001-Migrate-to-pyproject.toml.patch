@@ -1,0 +1,182 @@
+From 317a1ca2ed1468e665f2cee36736b85005361628 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9rgio=20M=2E=20Basto?= <sergio@serjux.com>
+Date: Mon, 26 May 2025 13:52:56 +0100
+Subject: [PATCH] Migrate to pyproject.toml
+
+---
+ pyproject.toml   | 70 ++++++++++++++++++++++++++++++++++++++++++++
+ requirements.txt |  1 -
+ setup.py         | 75 ------------------------------------------------
+ 3 files changed, 70 insertions(+), 76 deletions(-)
+ create mode 100644 pyproject.toml
+ delete mode 100755 setup.py
+
+diff --git a/pyproject.toml b/pyproject.toml
+new file mode 100644
+index 0000000..96e2038
+--- /dev/null
++++ b/pyproject.toml
+@@ -0,0 +1,70 @@
++[build-system]
++requires = ["setuptools>=61.0", "wheel"]
++build-backend = "setuptools.build_meta"
++
++[project]
++name = "rfpkg"
++version = "1.27.5"
++description = "RPM Fusion plugin to rpkg to manage package sources in a git repository"
++license = { text = "GPLv2+" }
++authors = [
++  { name = "Nicolas Chauvet", email = "kwizart@gmail.com" },
++]
++readme = "README"
++requires-python = ">=2.7"
++dependencies = [
++  "openidc-client",
++  "rpkg >= 1.65",
++  "six",
++  "distro",
++]
++
++classifiers = [
++  "Development Status :: 5 - Production/Stable",
++  "Environment :: Console",
++  "Intended Audience :: Developers",
++  "Topic :: Software Development :: Build Tools",
++  "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
++  "Programming Language :: Python :: 3",
++  "Programming Language :: Python :: 3.6",
++  "Programming Language :: Python :: 3.9",
++  "Programming Language :: Python :: 3.10",
++  "Programming Language :: Python :: 3.11",
++]
++
++[project.urls]
++Homepage = "https://github.com/rpmfusion-infra/rfpkg"
++
++[project.scripts]
++rfpkg = "rfpkg.__main__:main"
++
++[project.optional-dependencies]
++tests = [
++  "mock >= 1.0.1",
++  "coverage < 5.0.0",
++  "cccolutils",
++  "gitpython",
++  "freezegun",
++  "rpm < 0.0.3",
++  "pytest",
++  "pytest-cov",
++]
++
++[tool.setuptools.packages.find]
++where = ["."]
++include = ["rfpkg*"]
++
++[tool.setuptools]
++include-package-data = true
++
++[tool.setuptools.data-files]
++"share/bash-completion/completions" = ["conf/bash-completion/rfpkg.bash"]
++"etc/rpkg" = ["conf/etc/rpkg/rfpkg.conf"]
++"share/zsh/site-functions" = ["conf/zsh-completion/_rfpkg"]
++
++[tool.pytest.ini_options]
++testpaths = ["test"]
++
++[tool.flake8]
++max-line-length = 100
++
+diff --git a/requirements.txt b/requirements.txt
+index db8b22b..1c49e1d 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -1,4 +1,3 @@
+ openidc-client
+-python-bugzilla
+ rpkg >= 1.65
+ six
+diff --git a/setup.py b/setup.py
+deleted file mode 100755
+index da3c527..0000000
+--- a/setup.py
++++ /dev/null
+@@ -1,75 +0,0 @@
+-#!/usr/bin/python
+-
+-import os
+-
+-from setuptools import find_packages, setup
+-
+-try:
+-    from subprocess import getstatusoutput
+-except ImportError:
+-    from commands import getstatusoutput
+-
+-
+-def bash_completion_dir():
+-    (sts, output) = getstatusoutput(
+-        'pkg-config --variable=completionsdir bash-completion')
+-    return output if not sts and output else '/etc/bash_completion.d'
+-
+-
+-project_dir = os.path.dirname(os.path.realpath(__file__))
+-requirements = os.path.join(project_dir, 'requirements.txt')
+-tests_requirements = os.path.join(project_dir, 'tests-requirements.txt')
+-
+-with open(requirements, 'r') as f:
+-    install_requires = [line.strip() for line in f]
+-install_requires += [
+-    'distro',
+-]
+-
+-with open(tests_requirements, 'r') as f:
+-    tests_require = [line.strip() for line in f]
+-
+-
+-setup(
+-    name="rfpkg",
+-    version="1.27.5",
+-    author="Nicolas Chauvet",
+-    author_email="kwizart@gmail.com",
+-    description=("RPM Fusion plugin to rpkg to manage "
+-                 "package sources in a git repository"),
+-    license="GPLv2+",
+-    url="https://github.com/rpmfusion-infra/rfpkg",
+-    packages=find_packages(),
+-    data_files=[(bash_completion_dir(), ['conf/bash-completion/rfpkg.bash']),
+-                ('/etc/rpkg', ['conf/etc/rpkg/rfpkg.conf']),
+-                ('/usr/share/zsh/site-functions', ['conf/zsh-completion/_rfpkg']),
+-                ],
+-
+-    install_requires=install_requires,
+-    tests_require=tests_require,
+-
+-    entry_points={
+-        'console_scripts': [
+-            'rfpkg = rfpkg.__main__:main',
+-        ],
+-    },
+-
+-    classifiers=[
+-        'Development Status :: 5 - Production/Stable',
+-        'Environment :: Console',
+-        'Intended Audience :: Developers',
+-        'Topic :: Software Development :: Build Tools',
+-        'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
+-        'Programming Language :: Python :: 2',
+-        'Programming Language :: Python :: 2.6',
+-        'Programming Language :: Python :: 2.7',
+-        'Programming Language :: Python :: 3',
+-        'Programming Language :: Python :: 3.5',
+-        'Programming Language :: Python :: 3.6',
+-        'Programming Language :: Python :: 3.7',
+-        'Programming Language :: Python :: 3.8',
+-        'Programming Language :: Python :: 3.9',
+-        'Programming Language :: Python :: 3.10',
+-        'Programming Language :: Python :: 3.11',
+-    ],
+-)
+-- 
+2.50.1
+

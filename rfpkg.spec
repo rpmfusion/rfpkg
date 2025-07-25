@@ -1,11 +1,12 @@
 Name:           rfpkg
 Version:        1.27.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch1:         0001-Migrate-to-pyproject.toml.patch
 
 BuildArch:      noarch
 
@@ -13,21 +14,12 @@ BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(bash-completion)
 BuildRequires:  python-rpm-macros
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-rpkg
-BuildRequires:  python3-six
+BuildRequires:  python3-pytest
+#BuildRequires:  python3-setuptools
 # We br these things for man page generation due to imports
 BuildRequires:  python3-rpmfusion-cert
 BuildRequires:  rfpkgdb-cli
-# For testing
-BuildRequires:  python3-pytest
-BuildRequires:  python3-distro
-#BuildRequires:  python3-bugzilla
-BuildRequires:  python3-freezegun
-#BuildRequires:  python3-bodhi-client
 
-Requires:       python3-rpkg
-Requires:       python3-pycurl
 Requires:       python3-rpmfusion-cert
 Requires:       rfpkgdb-cli
 
@@ -47,17 +39,22 @@ RPM Fusion utility for working with dist-git.
 
 %prep
 %autosetup -p1
+%generate_buildrequires
+%pyproject_buildrequires -p
 
 %build
-%py3_build
+%pyproject_wheel
 %{__python3} doc/rfpkg_man_page.py > rfpkg.1
 
 
 %install
-%py3_install
+%pyproject_install
 %{__install} -d %{buildroot}%{_mandir}/man1
 %{__install} -p -m 0644 rfpkg.1 %{buildroot}%{_mandir}/man1
 
+# config file /etc/rpkg/rfpkg.conf is extracted to %{buildroot}/usr/etc/... by pyproject_install
+%{__install} -d %{buildroot}%{_sysconfdir}
+mv %{buildroot}/usr/etc/* %{buildroot}%{_sysconfdir}
 
 %check
 %pytest
@@ -70,13 +67,16 @@ RPM Fusion utility for working with dist-git.
 %{_bindir}/rfpkg
 %{_mandir}/man1/rfpkg.1*
 %{python3_sitelib}/rfpkg/
-%{python3_sitelib}/rfpkg-%{version}-py%{python3_version}.egg-info/
+%{python3_sitelib}/rfpkg-%{version}.dist-info/
 %bash_completions_dir/rfpkg.bash
 # zsh completion
 %zsh_completions_dir/_%{name}
 
 
 %changelog
+* Fri Jul 25 2025 Sérgio Basto <sergio@serjux.com> - 1.27.5-2
+- Migrate to pyproject.toml
+
 * Thu Jul 24 2025 Sérgio Basto <sergio@serjux.com> - 1.27.5-1
 - Update to 1.27.5
 - Allow builds on el10, el10-next and el10.x
