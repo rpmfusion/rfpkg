@@ -1,12 +1,14 @@
 Name:           rfpkg
 Version:        1.27.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
 Patch1:         0001-Migrate-to-pyproject.toml.patch
+Patch2:         0002-Remove-unused-Python-test-dependencies.patch
+Patch3:         0003-Remove-el10-from-multilibs-target-improve-branch-sel.patch
 
 BuildArch:      noarch
 
@@ -74,6 +76,9 @@ mv %{buildroot}/usr/etc/* %{buildroot}%{_sysconfdir}
 
 
 %changelog
+* Tue Sep 16 2025 Sérgio Basto <sergio@serjux.com> - 1.27.5-3
+- Remove el10 from multilibs target
+
 * Fri Jul 25 2025 Sérgio Basto <sergio@serjux.com> - 1.27.5-2
 - Migrate to pyproject.toml
 

@@ -1,0 +1,44 @@
+From 4f201ab4367cb22f425594d7ea5b76204ca31bdc Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9rgio=20M=2E=20Basto?= <sergio@serjux.com>
+Date: Fri, 5 Sep 2025 02:25:53 +0100
+Subject: [PATCH 2/3] Remove unused Python test dependencies
+
+---
+ pyproject.toml         | 6 ------
+ tests-requirements.txt | 6 ------
+ 2 files changed, 12 deletions(-)
+
+diff --git a/pyproject.toml b/pyproject.toml
+index 96e2038..c581e33 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -41,13 +41,7 @@ rfpkg = "rfpkg.__main__:main"
+ [project.optional-dependencies]
+ tests = [
+   "mock >= 1.0.1",
+-  "coverage < 5.0.0",
+-  "cccolutils",
+-  "gitpython",
+-  "freezegun",
+-  "rpm < 0.0.3",
+   "pytest",
+-  "pytest-cov",
+ ]
+ 
+ [tool.setuptools.packages.find]
+diff --git a/tests-requirements.txt b/tests-requirements.txt
+index be75121..40014b1 100644
+--- a/tests-requirements.txt
++++ b/tests-requirements.txt
+@@ -1,8 +1,2 @@
+ mock >= 1.0.1
+-coverage<5.0.0
+-cccolutils
+-gitpython
+-freezegun
+-rpm < 0.0.3
+ pytest
+-pytest-cov
+-- 
+2.51.0
+
