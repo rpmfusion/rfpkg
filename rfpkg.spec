@@ -1,6 +1,6 @@
 Name:           rfpkg
 Version:        1.27.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -76,6 +76,9 @@ mv %{buildroot}/usr/etc/* %{buildroot}%{_sysconfdir}
 
 
 %changelog
+* Mon Feb 02 2026 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 1.27.5-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
+
 * Tue Sep 16 2025 Sérgio Basto <sergio@serjux.com> - 1.27.5-3
 - Remove el10 from multilibs target
 
