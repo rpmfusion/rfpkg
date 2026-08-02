@@ -1,6 +1,6 @@
 Name:           rfpkg
 Version:        1.27.5
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
@@ -76,6 +76,9 @@ mv %{buildroot}/usr/etc/* %{buildroot}%{_sysconfdir}
 
 
 %changelog
+* Sun Aug 02 2026 RPM Fusion Release Engineering <leigh123linux@rpmfusion.org> - 1.27.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_45_Mass_Rebuild
+
 * Tue Jun 09 2026 Leigh Scott <leigh123linux@gmail.com> - 1.27.5-5
 - Rebuild for python-3.15
 
