@@ -1,0 +1,66 @@
+From 352bf348d9fc885c970d6f345056763e038bc953 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9rgio=20M=2E=20Basto?= <sergio@serjux.com>
+Date: Mon, 7 Sep 2026 13:30:48 +0100
+Subject: [PATCH] Remove from /etc/rpkg/rfpkg.conf
+
+-    nvidia-vaapi-driver
+-    rtmpdump
+-    xvidcore
+-    pcsx2
+-    steam
+
+Remove from /etc/rpkg/rfpkg.conf 2nd batch
+
+-    gstreamer1-libav
+-    faad2
+-    libdca
+-    libmms
+-    libquicktime
+-    mjpegtools
+-    opencore-amr
+-    vo-amrwbenc
+---
+ conf/etc/rpkg/rfpkg.conf | 13 -------------
+ 1 file changed, 13 deletions(-)
+
+diff --git a/conf/etc/rpkg/rfpkg.conf b/conf/etc/rpkg/rfpkg.conf
+index 32f5578..394b26e 100644
+--- a/conf/etc/rpkg/rfpkg.conf
++++ b/conf/etc/rpkg/rfpkg.conf
+@@ -20,33 +20,20 @@ lookaside_attempts = 3
+ lookaside_delay = 15
+ multilib_pkgs =
+     buildsys-build-rpmfusion
+-    gstreamer1-libav
+     gstreamer1-plugins-bad-freeworld
+     gstreamer1-plugins-ugly
+     fdk-aac
+-    faad2
+     ffmpeg
+     libde265
+-    libdca
+-    libmms
+-    libquicktime
+     libva-intel-driver
+-    mjpegtools
+     mesa-freeworld
+-    nvidia-vaapi-driver
+     intel-media-driver
+-    opencore-amr
+-    rtmpdump
+-    vo-amrwbenc
+     x264
+     x265
+-    xvidcore
+     zsnes
+     Cg
+     dega-sdl
+     gens
+-    pcsx2
+-    steam
+     xorg-x11-drv-nvidia
+     xorg-x11-drv-nvidia-580xx
+     xorg-x11-drv-nvidia-470xx
+-- 
+2.55.0
+

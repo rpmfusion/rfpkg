@@ -1,11 +1,12 @@
 Name:           rfpkg
 Version:        1.28.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch1:         0001-Remove-from-etc-rpkg-rfpkg.conf.patch
 
 BuildArch:      noarch
 
@@ -73,6 +74,9 @@ mv %{buildroot}/usr/etc/* %{buildroot}%{_sysconfdir}
 
 
 %changelog
+* Wed Sep 09 2026 Sérgio Basto <sergio@serjux.com> - 1.28.0-2
+- Update multilib pkgs
+
 * Mon Sep 07 2026 Sérgio Basto <sergio@serjux.com> - 1.28.0-1
 - Update rfpkg to 1.28.0
 
