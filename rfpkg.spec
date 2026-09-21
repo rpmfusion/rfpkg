@@ -1,11 +1,12 @@
 Name:           rfpkg
 Version:        1.28.0
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        RPM Fusion utility for working with dist-git
 License:        GPLv2+
 Group:          Applications/System
 URL:            https://github.com/rpmfusion-infra/rfpkg
 Source0:        %url/archive/v%{version}/%{name}-%{version}.tar.gz
+Source1:        setup.py
 Patch1:         0001-Remove-from-etc-rpkg-rfpkg.conf.patch
 
 BuildArch:      noarch
@@ -15,7 +16,8 @@ BuildRequires:  pkgconfig(bash-completion)
 BuildRequires:  python-rpm-macros
 BuildRequires:  python3-devel
 BuildRequires:  python3-pytest
-#BuildRequires:  python3-setuptools
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-rpkg
 # We br these things for man page generation due to imports
 BuildRequires:  python3-rpmfusion-cert
 BuildRequires:  rfpkgdb-cli
@@ -39,22 +41,18 @@ RPM Fusion utility for working with dist-git.
 
 %prep
 %autosetup -p1
-%generate_buildrequires
-%pyproject_buildrequires -p
+cp %{S:1} .
 
 %build
-%pyproject_wheel
+%py3_build
 %{__python3} doc/rfpkg_man_page.py > rfpkg.1
 
 
 %install
-%pyproject_install
+%py3_install
 %{__install} -d %{buildroot}%{_mandir}/man1
 %{__install} -p -m 0644 rfpkg.1 %{buildroot}%{_mandir}/man1
 
-# config file /etc/rpkg/rfpkg.conf is extracted to %{buildroot}/usr/etc/... by pyproject_install
-%{__install} -d %{buildroot}%{_sysconfdir}
-mv %{buildroot}/usr/etc/* %{buildroot}%{_sysconfdir}
 
 %check
 %pytest
@@ -67,18 +65,17 @@ mv %{buildroot}/usr/etc/* %{buildroot}%{_sysconfdir}
 %{_bindir}/rfpkg
 %{_mandir}/man1/rfpkg.1*
 %{python3_sitelib}/rfpkg/
-%{python3_sitelib}/rfpkg-%{version}.dist-info/
+%{python3_sitelib}/rfpkg-%{version}-py%{python3_version}.egg-info/
 %bash_completions_dir/rfpkg.bash
 # zsh completion
 %zsh_completions_dir/_%{name}
 
 
 %changelog
-* Wed Sep 09 2026 Sérgio Basto <sergio@serjux.com> - 1.28.0-2
-- Update multilib pkgs
-
 * Mon Sep 07 2026 Sérgio Basto <sergio@serjux.com> - 1.28.0-1
 - Update rfpkg to 1.28.0
+- Update multilib pkgs
+- Bring back setup.py to build on el8 and 9
 
 * Sun Aug 02 2026 RPM Fusion Release Engineering <leigh123linux@rpmfusion.org> - 1.27.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_45_Mass_Rebuild
